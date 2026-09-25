@@ -24,10 +24,13 @@ micromamba create -y -n $EnvName -f (Join-Path $Root "environment-windows.yml")
 Write-Host "== 3. Installation des paquets Python de Xavier (requirements.txt, non modifie) =="
 micromamba run -n $EnvName pip install --no-input -r (Join-Path $AppSrc "requirements.txt")
 
+Write-Host "== 3bis. Correctif Windows : le trio numpy 2.4.6/numba 0.65.1/llvmlite 0.47.0 de Xavier (valide sur sa machine Linux) est casse sur win_amd64 -- 'numba.np.types' absent du wheel Windows de numba 0.65.1, et son propre llvmlite 0.47.0 appelle une fonction depreciee. Retour a un trio numpy/numba/llvmlite mutuellement compatible et valide sur Windows, sans toucher a requirements.txt (upstream) =="
+micromamba run -n $EnvName pip install --no-input "numpy==2.2.6" "numba==0.61.2" "llvmlite==0.44.0"
+
 Write-Host "== 4. Suppression du bloat CUDA/torch non necessaire au runtime =="
 $nvidiaPkgs = (micromamba run -n $EnvName pip list --format=freeze) | Select-String '^nvidia-' | ForEach-Object { ($_ -split '==')[0] }
 micromamba run -n $EnvName pip uninstall -y torch torchaudio triton pytorch-lightning torchmetrics @nvidiaPkgs 2>$null
-micromamba run -n $EnvName python -c "import clarity, pystoi, pesq, pysiib, librosa, soundfile; print('imports OK sans torch')"
+micromamba run -n $EnvName python -c "import clarity.evaluator.haspi.eb, pystoi, pesq, pysiib, librosa, soundfile; print('imports OK sans torch (y compris le chemin haspi.eb qui charge numba)')"
 
 Write-Host "== 5. Paquets R additionnels requis par app.R (CRAN, non fournis par conda-forge) =="
 micromamba run -n $EnvName Rscript -e 'install.packages(c("tuneR","seewave"), repos="https://cloud.r-project.org")'

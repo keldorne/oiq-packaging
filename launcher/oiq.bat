@@ -1,6 +1,7 @@
 @echo off
 setlocal
 set "HERE=%~dp0"
+set "PATH=%HERE%env\Library\bin;%HERE%env\Library\mingw64\bin;%HERE%env\Library\usr\bin;%HERE%env\Scripts;%HERE%env;%PATH%"
 set "RETICULATE_VIRTUALENV_ROOT=%HERE%venvroot"
 set "NUMBA_CACHE_DIR=%LOCALAPPDATA%\oiq\numba"
 if not exist "%NUMBA_CACHE_DIR%" mkdir "%NUMBA_CACHE_DIR%"
