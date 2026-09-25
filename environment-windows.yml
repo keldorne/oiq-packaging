@@ -19,5 +19,4 @@ dependencies:
   - numba
   - pip
   - git
-  - m2w64-toolchain
   - conda-pack
