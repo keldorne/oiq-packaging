@@ -18,7 +18,8 @@ if (-not (Test-Path $AppSrc)) {
 }
 
 Write-Host "== 2. Creation de l'environnement conda (R + Python) =="
-micromamba create -y -n $EnvName -f (Join-Path $Root "environment.yml")
+micromamba env remove -y -n $EnvName 2>$null
+micromamba create -y -n $EnvName -f (Join-Path $Root "environment-windows.yml")
 
 Write-Host "== 3. Installation des paquets Python de Xavier (requirements.txt, non modifie) =="
 micromamba run -n $EnvName pip install --no-input -r (Join-Path $AppSrc "requirements.txt")
@@ -37,6 +38,7 @@ micromamba run -n $EnvName conda-pack -p $EnvPrefix -o (Join-Path $Build "oiq-en
 Expand-Archive -Path (Join-Path $Build "oiq-env.zip") -DestinationPath (Join-Path $Stage "env") -Force
 
 Write-Host "== 7. Copie de l'app de Xavier (verbatim) et du lanceur =="
+New-Item -ItemType Directory -Force -Path (Join-Path $Stage "app") | Out-Null
 Copy-Item -Recurse -Force "$AppSrc\*" (Join-Path $Stage "app")
 Copy-Item -Force (Join-Path $Root "launcher\oiq.bat") (Join-Path $Stage "oiq.bat")
 
