@@ -1,0 +1,22 @@
+name: oiq
+channels: [conda-forge]
+dependencies:
+  - python=3.11
+  - r-base=4.4
+  - r-shiny
+  - r-bslib
+  - r-ggplot2
+  - r-signal
+  - r-reticulate
+  - r-gplots
+  - r-plotrix
+  - r-scales
+  - r-writexl
+  - r-future
+  - r-future.apply
+  - numpy
+  - scipy
+  - numba
+  - pip
+  - git
+  - compilers

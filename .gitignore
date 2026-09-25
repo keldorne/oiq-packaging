@@ -1,0 +1,7 @@
+upstream/
+upstream.zip
+build/
+tools/
+*.pyc
+__pycache__/
+*.run
