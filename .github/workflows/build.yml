@@ -1,0 +1,72 @@
+name: Build OIQ installers
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch: {}
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Installer micromamba
+        uses: mamba-org/setup-micromamba@v1
+        with:
+          micromamba-version: latest
+          environment-name: placeholder
+          init-shell: bash
+          create-args: ""
+
+      - name: Construire l'installeur Linux
+        run: bash ci/build-linux.sh
+        shell: bash -el {0}
+
+      - name: Publier l'artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OIQ-Linux-x64
+          path: OIQ-Linux-x64.run
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Installer micromamba
+        uses: mamba-org/setup-micromamba@v1
+        with:
+          micromamba-version: latest
+          environment-name: placeholder
+          init-shell: powershell
+          create-args: ""
+
+      - name: Installer Inno Setup
+        run: choco install innosetup --no-progress -y
+
+      - name: Construire l'installeur Windows
+        run: pwsh ci/build-windows.ps1
+        shell: pwsh
+
+      - name: Publier l'artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OIQ-Windows-x64-setup
+          path: OIQ-Windows-x64-setup.exe
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [build-linux, build-windows]
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Publier la release GitHub (brouillon)
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          files: |
+            artifacts/OIQ-Linux-x64/OIQ-Linux-x64.run
+            artifacts/OIQ-Windows-x64-setup/OIQ-Windows-x64-setup.exe
