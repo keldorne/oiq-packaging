@@ -5,3 +5,4 @@ tools/
 *.pyc
 __pycache__/
 *.run
+.claude/
