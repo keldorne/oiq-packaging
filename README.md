@@ -4,6 +4,8 @@ Empaquetage de l'app OIQ (R/Shiny + Python via reticulate) en installeurs
 autonomes, sans prerequis sur la machine cible. Le code source de Xavier
 (`upstream/`) n'est jamais modifie ; tout le packaging vit dans ce depot.
 
+Empaquetage realise par Kevin Perreaut ([@keldorne](https://github.com/keldorne)).
+
 ## A quoi sert OIQ
 
 OIQ compare, a partir d'enregistrements audio, l'intelligibilite et la
