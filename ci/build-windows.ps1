@@ -32,7 +32,8 @@ Write-Host "== 5. Paquets R additionnels requis par app.R (CRAN, non fournis par
 micromamba run -n $EnvName Rscript -e 'install.packages(c("tuneR","seewave"), repos="https://cloud.r-project.org")'
 
 Write-Host "== 6. conda-pack : relocalisation de l'environnement =="
-micromamba run -n $EnvName conda-pack -n $EnvName -o (Join-Path $Build "oiq-env.zip") --format zip --ignore-missing-files --force
+$EnvPrefix = (micromamba run -n $EnvName python -c "import sys; print(sys.prefix)").Trim()
+micromamba run -n $EnvName conda-pack -p $EnvPrefix -o (Join-Path $Build "oiq-env.zip") --format zip --ignore-missing-files --force
 Expand-Archive -Path (Join-Path $Build "oiq-env.zip") -DestinationPath (Join-Path $Stage "env") -Force
 
 Write-Host "== 7. Copie de l'app de Xavier (verbatim) et du lanceur =="

@@ -20,6 +20,7 @@ fi
 APP_SRC="$ROOT/upstream/App_OIQ_R_parallel"
 
 echo "== 2. Creation de l'environnement conda (R + Python) =="
+micromamba env remove -y -n "$ENVNAME" 2>/dev/null || true
 micromamba create -y -n "$ENVNAME" -f "$ROOT/environment.yml"
 
 echo "== 3. Installation des paquets Python de Xavier (requirements.txt, non modifie) =="
@@ -36,7 +37,8 @@ echo "== 5. Paquets R additionnels requis par app.R (CRAN, non fournis par conda
 micromamba run -n "$ENVNAME" Rscript -e 'install.packages(c("tuneR","seewave"), repos="https://cloud.r-project.org")'
 
 echo "== 6. conda-pack : relocalisation de l'environnement =="
-micromamba run -n "$ENVNAME" conda-pack -n "$ENVNAME" -o "$BUILD/oiq-env.tar.gz" --ignore-missing-files --force
+ENV_PREFIX="$(micromamba run -n "$ENVNAME" python -c 'import sys; print(sys.prefix)')"
+micromamba run -n "$ENVNAME" conda-pack -p "$ENV_PREFIX" -o "$BUILD/oiq-env.tar.gz" --ignore-missing-files --force
 mkdir -p "$STAGE/env"
 tar -xzf "$BUILD/oiq-env.tar.gz" -C "$STAGE/env"
 
