@@ -51,9 +51,8 @@ Xavier Delerce, qui la publie sur
 Elle est aussi deposee ici : [release `mac-arm64`](https://github.com/keldorne/oiq-packaging/releases/tag/mac-arm64)
 (`OIQ-macOS-arm64.dmg.zip`, ~853 Mo).
 
-- **Non testee** : ce depot n'a pas ete construit ni execute sur un Mac. Le
-  `.dmg` est redistribue tel que Xavier l'a fourni, sans verification de
-  fonctionnement.
+- **Testee par Xavier** : il l'a construite et essayee de son cote. Ce
+  depot ne l'a pas re-testee et la redistribue telle quelle.
 - **Non signee** : sur macOS 15 et plus, autoriser l'ouverture dans
   Reglages Systeme > Confidentialite et securite.
 - Dezipper, ouvrir le `.dmg`, glisser l'appli dans Applications.
