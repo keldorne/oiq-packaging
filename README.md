@@ -43,6 +43,21 @@ Deux familles de metriques, a ne pas confondre :
    pour l'audiogramme choisi et le bruit teste. Tableau + exports PNG/xlsx
    sont ecrits a cote du fichier signal analyse.
 
+## Version macOS (Apple Silicon)
+
+Une version macOS autonome pour Mac Apple Silicon (M1 a M4) est fournie par
+Xavier Delerce, qui la publie sur
+[leblogaudiologie.com](https://leblogaudiologie.com/2026/07/27/mesure-des-performances-dune-aide-auditive-dans-le-bruit-do-it-yourself-partie-3-installer-lapplication-intelligibilitequalite/).
+Elle est aussi deposee ici : [release `mac-arm64`](https://github.com/keldorne/oiq-packaging/releases/tag/mac-arm64)
+(`OIQ-macOS-arm64.dmg.zip`, ~853 Mo).
+
+- **Non testee** : ce depot n'a pas ete construit ni execute sur un Mac. Le
+  `.dmg` est redistribue tel que Xavier l'a fourni, sans verification de
+  fonctionnement.
+- **Non signee** : sur macOS 15 et plus, autoriser l'ouverture dans
+  Reglages Systeme > Confidentialite et securite.
+- Dezipper, ouvrir le `.dmg`, glisser l'appli dans Applications.
+
 ## Construction locale
 
 ```bash
